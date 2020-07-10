@@ -11,7 +11,7 @@ set_base_variables() {
 
     echo "Get current vagrant machines"
     prefix=$(basename $(pwd))
-    MACHINES=$(vagrant status | grep libvirt | awk '{print $1}'| sed "s/^/${prefix}_")
+    MACHINES=$(vagrant status | grep libvirt | awk '{print $1}'| sed "s/^/${prefix}_/")
     echo -e "Found:\n$MACHINES"
 }
 
