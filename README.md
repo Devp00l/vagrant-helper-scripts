@@ -1,10 +1,10 @@
 # YAVSR
 Yet another vagrant script repository.
 
-## libvirt-snapshot.sh
+## libvirt-snapshot
 With this script you can easily create snapshots of your libvirt vagrant machines.
 
-Usage: `./libvirt-snapshot.sh <command>`
+Usage: `libvirt-snapshot <command>`
 
 Make sure that your current working directory has a '.vagrant' directory
 
@@ -16,11 +16,11 @@ Available commands:
 * `revert` -> Reverts machines back to last snapshot state
 
 
-## vagrant-common-action.sh
+## vagrant-common-action
 Provides actions that are pretty common.
-It also assumes that `libvirt-snapshot.sh` exists in the same directory.
+It also assumes that `libvirt-snapshot` is available as command too.
 
-Usage: `./vagrant-common-actions.sh <command>`
+Usage: `vagrant-common-actions <command>`
 
 Available commands:
 * `rebuild` -> Rebuilds vagrant images and starts them (this takes a long time)"
@@ -48,6 +48,6 @@ cp *.sh /usr/local/bin
 To symlink them:
 
 ```
-ln -s $PWD/libvirt-snapshot.sh /usr/local/bin/libvirt-snapshot.sh
-ln -s $PWD/vagrant-common-actions.sh /usr/local/bin/vagrant-common-actions.sh
+ln -s $PWD/libvirt-snapshot /usr/local/bin/libvirt-snapshot
+ln -s $PWD/vagrant-common-actions /usr/local/bin/vagrant-common-actions
 ```

@@ -82,7 +82,7 @@ revert)
     revert_snapshots
     ;;
 *)
-    echo "Usage: ./libvirt-snapshot.sh <command>"
+    echo "Usage: libvirt-snapshot <command>"
     echo "Make sure that your current working directory has a '.vagrant' directory."
     echo -e "\nAvailable commands:"
     echo -e "    create \t\t Create snapshots from current machines"

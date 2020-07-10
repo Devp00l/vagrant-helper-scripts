@@ -1,8 +1,6 @@
 #!/bin/bash
 # $1 = recreate | save | revert
 
-snapshot_script="$(dirname $0)/libvirt-snapshot.sh"
-
 rebuild_machines(){
   echo "This can take a while..."
   echo "Halting all machines"
@@ -16,16 +14,16 @@ rebuild_machines(){
 
 create_snapshots(){
   echo "Deleting old snapshots form current machines"
-  $snapshot_script remove
+  libvirt-snapshot remove
   echo "Creating new snapshots form current machines"
-  $snapshot_script create
+  libvirt-snapshot create
 }
 
 revert_snapshots(){
   echo "Halting all machines"
   vagrant halt
   echo "Reverting machines to last snapshot"
-  $snapshot_script revert
+  libvirt-snapshot revert
   echo "Starting machines"
   vagrant up
 }
@@ -42,7 +40,7 @@ revert)
     revert_snapshots
     ;;
 *)
-    echo "Usage: ./vagrant-common-actions.sh <command>"
+    echo "Usage: vagrant-common-actions <command>"
     echo -e "\nAvailable commands:"
     echo -e "  rebuild \t Rebuilds vagrant images and starts them (this takes a long time)"
     echo -e "  create \t Creates snapshots of current machines"
