@@ -12,7 +12,7 @@ Available commands:
 
 * `create` -> Creates snapshots from current machines
 * `list` -> Lists created snapshots
-* `remove` -> Removes created snapsshots
+* `remove` -> Removes created snapshots
 * `revert` -> Reverts machines back to last snapshot state
 
 
@@ -27,27 +27,25 @@ Available commands:
 * `create` -> Creates snapshots of current machines"
 * `revert` -> Reverts snapshots of machines"
 
+## vagrant-resolve-issues
+Provides some helpful functions to (hopefully) be able to resolve vagrant issues quickly.
 
-## How to isntall the scripts?
+Usage: `vagrant-resolve-issues <command> [search]`
 
-One way would be to use the path of you clone inside your `$PATH` in your shell configuration or profile.
+Available commands:
+* `net` -> Shows net-list
+* `net search` -> Undefines every net name that matches the search term
+* `info` -> Gives a lot of information that could help resolving problems
 
-```
-export PATH=$PATH:$ClonePath
-```
 
-To use it globally copy or symlink the scripts to `/usr/local/bin`.
-You propably have to be root to run the upcoming commands (`sudo -s`).
 
-To copy them:
+## How to install the scripts?
 
-```
-cp *.sh /usr/local/bin
-```
-
-To symlink them:
+To use it globally symlink the scripts to `/usr/local/bin`.
+You probably have to be root to run the upcoming commands (`sudo -s`).
 
 ```
 ln -s $PWD/libvirt-snapshot /usr/local/bin/libvirt-snapshot
 ln -s $PWD/vagrant-common-actions /usr/local/bin/vagrant-common-actions
+ln -s $PWD/vagrant-resolve-issues /usr/local/bin/vagrant-resolve-issues
 ```

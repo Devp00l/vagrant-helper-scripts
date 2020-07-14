@@ -1,0 +1,48 @@
+#!/bin/bash
+# $1 = command
+# $2 = search string
+CMD=$1
+SEARCH=$2
+
+getinfo(){
+  set -xv
+  virsh list --all
+  virsh net-list --all
+  virsh pool-list
+  set +xv
+  for pool in $(virsh pool-list --name); do
+    set -xv
+    virsh vol-list $pool;
+    set +xv
+  done
+  echo "If you experience timeouts, try to restart your libvirt daemon."
+}
+
+nethelp(){
+  if [ -z "$SEARCH" ]; then
+    virsh net-list --all
+    exit 0
+  fi
+  for net in $(virsh net-list --all --name); do
+    if [ -n "$(echo $net | grep -o $SEARCH)" ]; then
+      virsh net-destroy $net
+      virsh net-undefine $net
+    fi
+  done
+}
+
+case "${CMD}" in
+info)
+    getinfo
+    ;;
+net)
+    nethelp
+    ;;
+*)
+    echo "Usage: vagrant-resolve-issues <command> [search]"
+    echo -e "\nAvailable commands:"
+    echo -e "  net \t\t Shows net-list"
+    echo -e "  net search \t Undefines every net name that matches the search term"
+    echo -e "  info \t\t Gives a lot of information that could help resolving problems"
+    exit 1
+esac
