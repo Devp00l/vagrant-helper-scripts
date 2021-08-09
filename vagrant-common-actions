@@ -5,10 +5,12 @@ rebuild_machines(){
   echo "This can take a while..."
   echo "Halting all machines"
   vagrant halt
+  echo "Deleting old snapshots form current machines"
+  libvirt-snapshot remove
   echo "Destroying all machines"
   sudo vagrant destroy -f
   echo "Recreating all machines"
-  vagrant up
+  vagrant up --no-parallel
   vagrant ssh-config > ssh-config
 }
 
