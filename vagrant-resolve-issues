@@ -31,6 +31,30 @@ nethelp(){
   done
 }
 
+destroyDomain(){
+  if [ -z "$SEARCH" ]; then
+    virsh list --all
+    echo "Error: Domain name not provided"
+    exit 0
+  fi
+  for net in $(virsh list --all --name); do
+    if [ -n "$(echo $net | grep -o $SEARCH)" ]; then
+      virsh snapshot-delete $net --current
+      virsh destroy $net
+      virsh undefine $net
+    fi
+  done
+  deleteVolumes
+}
+
+deleteVolumes(){
+  if [ -z "$SEARCH" ]; then
+    echo "Error: No search term provided"
+    exit 0
+  fi
+  virsh vol-list default | grep $SEARCH | awk '{print $1}' | xargs -I '{}' virsh vol-delete '{}' default
+}
+
 case "${CMD}" in
 info)
     getinfo
@@ -38,11 +62,19 @@ info)
 net)
     nethelp
     ;;
+delete_volumes)
+    deleteVolumes
+    ;;
+destroy_domain)
+    destroyDomain
+    ;;
 *)
     echo "Usage: vagrant-resolve-issues <command> [search]"
     echo -e "\nAvailable commands:"
-    echo -e "  net \t\t Shows net-list"
-    echo -e "  net search \t Undefines every net name that matches the search term"
-    echo -e "  info \t\t Gives a lot of information that could help resolving problems"
+    echo -e "  destory_domain name\t Destroys domain with anything in it - Resolve Domain is already taken issue"
+    echo -e "  delete_volumes name\t Deletes any images that matches the search term"
+    echo -e "  net \t\t\t Shows net-list"
+    echo -e "  net search \t\t Undefines every net name that matches the search term"
+    echo -e "  info \t\t\t Gives a lot of information that could help resolving problems"
     exit 1
 esac
